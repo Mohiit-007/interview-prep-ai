@@ -60,24 +60,6 @@ The system uses **LLM APIs (Groq / LLaMA models)** to evaluate candidate-job mat
 
 ---
 
-# 📂 Project Structure
-
-```
-InterviewAI
-│
-├── backend
-│     ├── interview.js
-│     ├── controllers
-│     ├── routes
-│     └── server.js
-│
-├── utils
-│
-└── README.md
-```
-
----
-
 # ⚙️ Installation
 
 ## 1️⃣ Clone the Repository
