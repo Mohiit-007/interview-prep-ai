@@ -1,21 +1,24 @@
 # InterviewAI – AI Powered Interview Preparation & Resume Generator
 
-InterviewAI is an **AI-powered backend system** that analyzes a candidate's **resume, self description, and job description** to generate a **personalized interview preparation report and a professional resume PDF**.
+InterviewAI is an **AI-powered full stack web application** that analyzes a candidate's **resume, self description, and job description** to generate a **personalized interview preparation report and a professional resume PDF**.
 
 The system uses **LLM APIs (Groq / LLaMA models)** to evaluate candidate-job matching, detect skill gaps, generate interview questions, and create a **7-day interview preparation plan**.
+
+The project includes a **React frontend** for user interaction and a **Node.js backend API** for AI processing and PDF generation.
 
 ---
 
 # 🚀 Features
 
-## 👤 Candidate Features
+## 👤 User Features
 
-* Generate Interview Preparation Report
-* Analyze Resume vs Job Description
-* Get Personalized Interview Questions
-* Skill Gap Detection
-* 7-Day Interview Preparation Plan
+* User Signup & Login
+* Secure Authentication using JWT
+* Upload Resume for Analysis
+* Generate AI Interview Preparation Report
+* View Match Score with Job Description
 * Generate Professional Resume PDF
+* Logout
 
 ---
 
@@ -24,8 +27,8 @@ The system uses **LLM APIs (Groq / LLaMA models)** to evaluate candidate-job mat
 * AI Match Score (0–100)
 * 5 Technical Interview Questions
 * 4 Behavioral Interview Questions
-* Skill Gap Analysis with severity
-* Structured Interview Preparation Plan
+* Skill Gap Analysis with severity levels
+* 7-Day Interview Preparation Plan
 
 ---
 
@@ -35,11 +38,19 @@ The system uses **LLM APIs (Groq / LLaMA models)** to evaluate candidate-job mat
 * Professional A4 Resume Design
 * Two Column Resume Structure
 * Automatic Data Extraction from Resume
+* HTML Resume Generation
 * PDF Resume Generation using Puppeteer
 
 ---
 
 # 🛠️ Tech Stack
+
+## Frontend
+
+* React.js
+* React Router
+* Axios
+* SCSS
 
 ## Backend
 
@@ -47,22 +58,27 @@ The system uses **LLM APIs (Groq / LLaMA models)** to evaluate candidate-job mat
 * Express.js
 * Puppeteer
 
-## AI
+## Database
+
+* MongoDB
+* Mongoose
+
+## AI Integration
 
 * Groq API
 * LLaMA 3.3 70B Versatile
 
-## Other Tools
+## Authentication & Security
 
-* JSON Validation
-* Retry Mechanism
-* HTML Resume Generation
+* JWT Authentication
+* Authorization Middleware
+* Secure API Routes
 
 ---
 
 # ⚙️ Installation
 
-## 1️⃣ Clone the Repository
+## Clone the Repository
 
 ```
 git clone https://github.com/yourusername/interview-ai.git
@@ -71,45 +87,67 @@ cd interview-ai
 
 ---
 
-## 2️⃣ Install Dependencies
+## Install Dependencies
+
+Backend:
 
 ```
+cd backend
+npm install
+```
+
+Frontend:
+
+```
+cd frontend
 npm install
 ```
 
 ---
 
-## 3️⃣ Setup Environment Variables
+## Setup Environment Variables
 
-Create a `.env` file in the root directory:
+Create a `.env` file inside the backend folder.
 
 ```
 GROQ_API_KEY=your_groq_api_key
 AI_MODEL=llama-3.3-70b-versatile
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
 ```
 
-Get your API key from:
+Get Groq API key from:
 
 https://console.groq.com
 
 ---
 
-## 4️⃣ Run the Server
+## Run Backend Server
 
 ```
+cd backend
 npm run dev
 ```
 
-or
-
-```
-node server.js
-```
-
-Server runs on:
+Backend runs on:
 
 ```
 http://localhost:8000
+```
+
+---
+
+## Run Frontend
+
+```
+cd frontend
+npm run dev
+```
+
+Frontend runs on:
+
+```
+http://localhost:5173
 ```
 
 ---
@@ -164,6 +202,20 @@ Response: **PDF file**
 
 ---
 
+# 🔐 Authentication & Authorization
+
+The system uses **JWT based authentication**.
+
+Protected routes include:
+
+* Generate Interview Report
+* Generate Resume PDF
+* Access User Profile
+
+Authorization middleware ensures that **only authenticated users can access protected APIs**.
+
+---
+
 # 🔁 Reliability Features
 
 * Retry System for AI API failures
@@ -175,9 +227,10 @@ Response: **PDF file**
 
 # ⭐ Highlights
 
+* Full Stack AI Application
 * AI Powered Interview Preparation
 * Automated Resume Generation
-* Structured Interview Reports
+* Secure Authentication System
 * PDF Resume Export
 * Robust Error Handling
 
@@ -189,7 +242,7 @@ Response: **PDF file**
 * Speech-based Interview Practice
 * Resume ATS Score Analysis
 * Job Recommendation System
-* Frontend Dashboard
+* Dashboard for tracking interview preparation
 
 ---
 
