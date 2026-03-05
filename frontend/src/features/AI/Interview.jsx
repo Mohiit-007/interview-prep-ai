@@ -17,19 +17,15 @@ const Interview = () => {
   useEffect(() => {
     const fetchReport = async () => {
       try {
-
         const res = await axios.get(
           `http://localhost:8000/report/${id}`,
           { withCredentials: true }
         );
-
         setReport(res.data.InterviewReport);
-
       } catch (err) {
         console.error("Error fetching report", err);
       }
     };
-
     fetchReport();
   }, []);
 
@@ -45,28 +41,25 @@ const Interview = () => {
     preparationPlan,
   } = report;
 
-
   let matchText = "";
   let colorstyle = "";
 
-  if(matchScore < 40){
+  if (matchScore < 40) {
     matchText = "Weak match for this role";
-    colorstyle = "#ef4444"; // red
-  }
-  else if(matchScore < 70){
+    colorstyle = "#ef4444";
+  } else if (matchScore < 70) {
     matchText = "Medium match for this role";
-    colorstyle = "#f59e0b"; // yellow
-  }
-  else{
+    colorstyle = "#f59e0b";
+  } else {
     matchText = "Strong match for this role";
-    colorstyle = "#22c55e"; // green
-  }  
+    colorstyle = "#22c55e";
+  }
+
 
   const renderQuestions = (questions) => (
     <>
       {questions.map((q, i) => (
         <div key={i} className="accordion-card">
-
           <div
             className="accordion-header"
             onClick={() => setOpenIndex(openIndex === i ? null : i)}
@@ -75,7 +68,6 @@ const Interview = () => {
               <span className="q-badge">Q{i + 1}</span>
               <h4 className="question-title">{q.question}</h4>
             </div>
-
             <span className={`arrow ${openIndex === i ? "rotate" : ""}`}>
               ▾
             </span>
@@ -86,66 +78,47 @@ const Interview = () => {
               <div className="block-title">INTENTION</div>
               <p>{q.intention}</p>
             </div>
-
             <div className="answer-block model-block">
               <div className="block-title">MODEL ANSWER</div>
               <p>{q.answer}</p>
             </div>
           </div>
-
         </div>
       ))}
     </>
   );
 
-const handleDownloadResume = async () => {
-  try {
-
-    setDownloading(true);
-
-    const res = await axios.post(
-      `http://localhost:8000/resume/pdf/${id}`,
-      {},
-      {
-        responseType: "blob",
-        withCredentials: true,
-      }
-    );
-
-    const url = window.URL.createObjectURL(new Blob([res.data]));
-    const link = document.createElement("a");
-
-    link.href = url;
-    link.setAttribute("download", "resume.pdf");
-
-    document.body.appendChild(link);
-    link.click();
-
-    toast.success("Resume downloaded!", {
-      icon: "📄",
-    });
-
-  } catch (error) {
-    console.error("Resume download failed", error);
-    toast.error("Failed to generate resume");
-  } finally {
-    setDownloading(false);
-  }
-
-};
+  const handleDownloadResume = async () => {
+    try {
+      setDownloading(true);
+      const res = await axios.post(
+        `http://localhost:8000/resume/pdf/${id}`,
+        {},
+        { responseType: "blob", withCredentials: true }
+      );
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "resume.pdf");
+      document.body.appendChild(link);
+      link.click();
+      toast.success("Resume downloaded!", { icon: "📄" });
+    } catch (error) {
+      console.error("Resume download failed", error);
+      toast.error("Failed to generate resume");
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   return (
     <div className="interview-page">
 
       {/* Sidebar */}
-
       <aside className="sidebar">
         <h4>SECTIONS</h4>
 
-        <button
-          className="back-home-btn"
-          onClick={() => navigate("/")}
-        >
+        <button className="back-home-btn" onClick={() => navigate("/")}>
           ← Dashboard
         </button>
 
@@ -195,13 +168,10 @@ const handleDownloadResume = async () => {
               </button>
             </div>
           )}
-       </div>
+        </div>
       </aside>
 
-      {/* Main content */}
-
       <main className="content fade">
-
         {activeSection === "technical" && (
           <>
             <h2>Technical Questions</h2>
@@ -222,83 +192,70 @@ const handleDownloadResume = async () => {
           <>
             <h2>Preparation Road Map</h2>
             <br />
-
             <div className="timeline">
               {preparationPlan.map((day, i) => (
                 <div key={i} className="timeline-item">
-
                   <div className="timeline-dot"></div>
-
                   <div className="timeline-content">
                     <span className="day-pill">Day {day.day}</span>
                     <h4>{day.focus}</h4>
-
                     <ul>
                       {day.tasks.map((task, idx) => (
                         <li key={idx}>{task}</li>
                       ))}
                     </ul>
-
                   </div>
-
                 </div>
               ))}
             </div>
           </>
         )}
-
       </main>
-
-      {/* Right panel */}
 
       <aside className="right-panel">
 
         <div className="score-card">
-
           <div className="score-ring">
-
-            <svg width="150" height="150">
-
-              <circle className="ring-bg" cx="75" cy="75" r="65"/>
-
-              <circle 
+            <svg
+              width="160"
+              height="160"
+              viewBox="0 0 160 160"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle className="ring-bg" cx="80" cy="80" r="60" />
+              <circle
                 className="ring-progress"
-                cx="75"
-                cy="75"
-                r="65"
+                cx="80"
+                cy="80"
+                r="60"
                 style={{
-                  strokeDashoffset: 408 - (408 * matchScore) / 100,
-                  stroke : colorstyle
+                  strokeDashoffset: 377 - (377 * matchScore) / 100,
+                  stroke: colorstyle,
                 }}
               />
-
             </svg>
 
             <div className="score-text">
               <span>{matchScore}%</span>
             </div>
-
           </div>
 
-          <p className="score-label" style={{color : `${colorstyle}`}} >{matchText}</p>
-
+          <p className="score-label" style={{ color: colorstyle }}>
+            {matchText}
+          </p>
         </div>
 
         <div className="skill-gaps">
-
           <h4>Skill Gaps</h4>
-
           {skillgaps.map((gap, i) => (
             <div key={i} className={`gap-card ${gap.severity}`}>
               <span className="severity-dot"></span>
               {gap.skill}
             </div>
           ))}
-
         </div>
 
       </aside>
-
     </div>
   );
 };
