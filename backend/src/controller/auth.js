@@ -21,9 +21,11 @@ async function registerUser(req,res) {
             password : hashedpassword,
         })
 
+        const jwtSecret = process.env.JWT_SECRET;
+        if (!jwtSecret) throw new Error('JWT_SECRET is not configured');
         const token = jwt.sign({
             id : user._id,
-        },process.env.JWT_SECRET,{expiresIn : "1d"})
+        }, jwtSecret, {expiresIn : "1d"})
 
         res.cookie("token",token,{
             httpOnly : true,
@@ -42,6 +44,14 @@ async function registerUser(req,res) {
         })
 
     } catch (error) {
+        // Handle Mongo duplicate key error (E11000) with a friendly message
+        if (error && error.code === 11000) {
+            const duplicateField = error.keyValue ? Object.keys(error.keyValue)[0] : 'field';
+            return res.status(409).json({
+                msg: `${duplicateField} already exists`,
+                error: error.message,
+            });
+        }
         res.status(500).json({
             msg : "Internal server error",
             error : error.message,
@@ -66,9 +76,11 @@ async function loginUser(req,res) {
             return res.status(401).json({msg : "Invalid credentails"})
         }
 
+        const jwtSecret = process.env.JWT_SECRET;
+        if (!jwtSecret) throw new Error('JWT_SECRET is not configured');
         const token = jwt.sign({
             id : user._id,
-        },process.env.JWT_SECRET,{expiresIn : "1d"})
+        }, jwtSecret, {expiresIn : "1d"})
 
         res.cookie("token",token,{
             httpOnly : true,

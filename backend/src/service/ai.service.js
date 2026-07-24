@@ -477,17 +477,15 @@ async function generatePdffromhtml(htmlContent) {
 
 async function generateResumepdf({ resume, selfDescription, JobDescription }) {
   
-  console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
   console.log("generateResumepdf called");
   console.log("  resume length    :", resume?.length || 0);
   console.log("  selfDesc length  :", selfDescription?.length || 0);
   console.log("  jobDesc length   :", JobDescription?.length || 0);
   console.log("  AI_MODEL env     :", process.env.AI_MODEL || "llama-3.3-70b-versatile (default)");
   console.log("  API KEY set      :", !!process.env.GROQ_API_KEY);
-  console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 
   if (!resume || resume.trim().length < 50) {
-    console.warn("⚠️  Resume text is empty/too short — pdf-parse may have failed on the uploaded file");
+    console.warn("Resume text is empty/too short — pdf-parse may have failed on the uploaded file");
   }
 
   const prompt = buildResumePrompt({ resume, selfDescription, JobDescription });
@@ -501,7 +499,7 @@ async function generateResumepdf({ resume, selfDescription, JobDescription }) {
       const parsed    = JSON.parse(jsonStr);
       const validated = validateResumeHTML(parsed);
 
-      console.log("✅ Resume HTML valid, length:", validated.html.length);
+      console.log(" Resume HTML valid, length:", validated.html.length);
       return validated.html;
 
     }, 3, 1500);
@@ -509,10 +507,8 @@ async function generateResumepdf({ resume, selfDescription, JobDescription }) {
     return await generatePdffromhtml(htmlContent);
 
   } catch (err) {
-    console.error("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     console.error("generateResumepdf FAILED — using fallback");
     console.error("Final error:", err.message);
-    console.error("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 
     const fallbackHTML = generateFallbackResumeHTML({ resume, selfDescription });
     return await generatePdffromhtml(fallbackHTML);

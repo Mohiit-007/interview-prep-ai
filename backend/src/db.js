@@ -6,7 +6,9 @@ async function connectdb() {
         console.log("MongoDB Connected");
     }
     catch(err){
-        console.log("MongoDB Error:", err);
+        console.error("MongoDB Error:", err);
+        // If DB connection fails, surface the error and exit — the app cannot function without the DB.
+        throw err;
     }
 }
 
