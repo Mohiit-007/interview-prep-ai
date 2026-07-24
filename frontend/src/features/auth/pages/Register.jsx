@@ -12,6 +12,8 @@ const Register = () => {
   const [success, setSuccess] = useState('')
   const [loading, setLoading] = useState(false)
 
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
@@ -19,7 +21,7 @@ const Register = () => {
     setLoading(true)
     try {
       const res = await axios.post(
-        'http://localhost:8000/user/register',
+        `${API_URL}/user/register`,
         { fullname, email, password },
         { withCredentials: true }
       )
