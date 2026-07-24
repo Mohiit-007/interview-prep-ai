@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { NavLink , useNavigate} from 'react-router-dom'
-import axios from 'axios'
+import api from '../../../utils/api'
 import './Auth.scss'
 
 const Register = () => {
@@ -20,11 +20,7 @@ const Register = () => {
     setSuccess('')
     setLoading(true)
     try {
-      const res = await axios.post(
-        `${API_URL}/user/register`,
-        { fullname, email, password },
-        { withCredentials: true }
-      )
+      const res = await api.post(`/user/register`, { fullname, email, password })
       setLoading(false)
       setSuccess(res?.data?.msg || 'Registration successful.')
       setTimeout(() => navigate('/') , 1000)
